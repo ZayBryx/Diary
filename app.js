@@ -28,6 +28,10 @@ app.get("/login", (req, res) => {
   res.sendFile("public/login.html", { root: __dirname });
 });
 
+app.get("/", (req,res)=>{
+  res.send("DIARY API Z");
+})
+
 app.use(
   rateLimiter({
     windowMs: 15 * 60 * 1000,
