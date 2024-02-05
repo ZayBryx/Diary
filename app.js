@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const rateLimiter = require("express-rate-limit");
 const helmet = require("helmet");
-const {xss}= require("express-xss-sanitizer");
+const { xss } = require("express-xss-sanitizer");
 const cookieParser = require("cookie-parser");
 
 const app = express();
@@ -25,6 +25,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.static("./public"));
 
+app.set("trust proxy", 1);
 app.use(
   rateLimiter({
     windowMs: 15 * 60 * 1000,
@@ -48,9 +49,9 @@ const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 const diaryRoute = require("./routes/diary");
 
-app.get("/", (req,res)=>{
+app.get("/", (req, res) => {
   res.send("DIARY API made by: Zay");
-})
+});
 
 app.use(publicRoute);
 app.use("/api/v1/auth", authRoute);
