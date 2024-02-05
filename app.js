@@ -29,7 +29,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/", (req,res)=>{
-  res.send("DIARY API Z");
+  res.send("DIARY API made by: Zay");
 })
 
 app.use(
