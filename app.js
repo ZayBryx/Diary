@@ -2,10 +2,11 @@ require("express-async-errors");
 require("dotenv").config();
 
 const express = require("express");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const rateLimiter = require("express-rate-limit");
 const helmet = require("helmet");
-const xss = require("xss-clean");
+const {xss}= require("express-xss-sanitizer");
 const cookieParser = require("cookie-parser");
 
 const app = express();
@@ -21,16 +22,8 @@ const notFoundMiddleware = require("./middlewares/not-found");
 const authUser = require("./middlewares/authentication");
 
 app.use(cookieParser());
-app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.static("./public"));
-
-app.get("/login", (req, res) => {
-  res.sendFile("public/login.html", { root: __dirname });
-});
-
-app.get("/", (req,res)=>{
-  res.send("DIARY API made by: Zay");
-})
 
 app.use(
   rateLimiter({
@@ -54,6 +47,10 @@ const publicRoute = require("./routes/public");
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 const diaryRoute = require("./routes/diary");
+
+app.get("/", (req,res)=>{
+  res.send("DIARY API made by: Zay");
+})
 
 app.use(publicRoute);
 app.use("/api/v1/auth", authRoute);
