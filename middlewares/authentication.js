@@ -6,7 +6,7 @@ const auth = async (req, res, next) => {
   const cookie = req.cookies.token;
 
   if (!cookie || !cookie.startsWith("Bearer")) {
-    throw new UnauthenticatedError("Authentication Invalid");
+    throw new UnauthenticatedError("Authentication Invalid C404");
   }
 
   const token = cookie.split(" ")[1];

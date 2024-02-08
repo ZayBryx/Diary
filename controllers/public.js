@@ -1,4 +1,8 @@
-const { NotFoundError, BadRequestError } = require("../errors");
+const {
+  NotFoundError,
+  BadRequestError,
+  UnauthenticatedError,
+} = require("../errors");
 const { StatusCodes } = require("http-status-codes");
 const User = require("../models/User");
 const { emailVerification, passwordMail } = require("../utils/mails");
@@ -16,6 +20,12 @@ const login = async (req, res) => {
   const isTrue = await user.comparePassword(password);
   if (!isTrue) {
     throw new BadRequestError("password is incorrect");
+  }
+
+  const verification = await user.verification.isVerified;
+
+  if (!verification) {
+    throw new UnauthenticatedError("Verify your account");
   }
 
   const token = user.genToken();
